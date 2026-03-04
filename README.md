@@ -55,7 +55,7 @@ soc-detection-lab/
 ├── docs/
 │   └── setup_guide.md           # Full Splunk + Sysmon environment guide
 ├── requirements.txt
-└── setup.sh                     # One-command setup (macOS/Linux)
+└── run.sh                       # One-command setup (macOS/Linux)
 ```
 
 ---
@@ -63,48 +63,20 @@ soc-detection-lab/
 ## Quick Start
 
 ```bash
-git clone https://github.com/bilxallll/soc-detection-lab.git
+git clone https://github.com/bilxall/soc-detection-lab.git
 cd soc-detection-lab
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Generate the 9,600+ event dataset
-python3 scripts/generate_sample_logs.py
-
-# Run the analyzer
-python3 scripts/log_analyzer.py logs/sample/windows_events.json --csv
+# Run everything in one shot
+chmod +x run.sh && ./run.sh
 ```
 
-### Sample Output
+---
 
-```
-=================================================================
-  SOC DETECTION REPORT
-=================================================================
-  Log file   : logs/sample/windows_events.json
-  Events     : 9,696
-  Alerts     : 18
-  CRITICAL   : 2
-  HIGH       : 5
-  MEDIUM     : 11
-=================================================================
+## Sample Output
 
-[ALERT 1] [HIGH] T1110 – Brute Force
-  Time   : 2025-09-15T10:00:00
-  User   : jsmith
-  Detail : 47 failed logins within 60s from 192.168.1.99
+![Detection Report – Alerts 1-9](docs/demo_output_1.png)
 
-[ALERT 5] [HIGH] T1021 – Remote Services
-  Time   : 2025-09-15T10:03:10
-  User   : jsmith
-  Detail : Lateral movement across 5 hosts in 300s
-
-[ALERT 17] [CRITICAL] T1003 – OS Credential Dumping
-  Time   : 2025-09-15T10:16:45
-  User   : jsmith
-  Detail : mimikatz.exe executed on DC-PROD01
-```
+![Detection Report – Alerts 9-18](docs/demo_output_2.png)
 
 ---
 
@@ -162,4 +134,4 @@ For Splunk + Sysmon + Windows VM setup instructions, see [`docs/setup_guide.md`]
 
 **Bilal Ansari** — M.S. Cybersecurity, University of South Florida  
 CompTIA Security+ | Google Cybersecurity Professional  
-[LinkedIn](https://linkedin.com/in/bilxallll) · [GitHub](https://github.com/bilxallll)
+[LinkedIn](https://linkedin.com/in/bilxall) · [GitHub](https://github.com/bilxall)
