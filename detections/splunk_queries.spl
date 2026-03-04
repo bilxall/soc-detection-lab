@@ -1,0 +1,75 @@
+# ============================================================
+# Splunk SPL Queries – SOC Detection Lab
+# Author: Bilal Ansari
+# Maps to MITRE ATT&CK techniques used in the lab
+# ============================================================
+
+
+# ── T1110 | Brute Force Detection ────────────────────────────────────────────
+# Detects 5+ failed logins from the same source IP within 5 minutes
+
+index=windows EventCode=4625
+| bucket _time span=5m
+| stats count by _time, src_ip, TargetUserName
+| where count >= 5
+| eval mitre="T1110 - Brute Force"
+| sort -count
+| table _time, src_ip, TargetUserName, count, mitre
+
+
+# ── T1021 | Lateral Movement Detection ───────────────────────────────────────
+# Finds users authenticating to 3+ unique hosts in a 5-minute window
+
+index=windows EventCode=4624 LogonType=3
+| bucket _time span=5m
+| stats dc(ComputerName) AS unique_hosts values(ComputerName) AS hosts by _time, TargetUserName, src_ip
+| where unique_hosts >= 3
+| eval mitre="T1021 - Remote Services"
+| table _time, TargetUserName, src_ip, unique_hosts, hosts, mitre
+
+
+# ── T1550.002 | Pass-the-Hash Detection ──────────────────────────────────────
+# NTLM network logons (type 3) from non-standard IPs
+
+index=windows (EventCode=4776 OR (EventCode=4624 LogonType=3))
+| where AuthenticationPackageName="NTLM" AND src_ip!="127.0.0.1"
+| stats count by _time, TargetUserName, src_ip, ComputerName
+| eval mitre="T1550.002 - Pass the Hash"
+| table _time, TargetUserName, src_ip, ComputerName, mitre
+
+
+# ── T1003 | Credential Dumping – Suspicious Process ──────────────────────────
+# Catches known credential-dumping tools via process creation events
+
+index=windows EventCode=4688
+| where match(NewProcessName, "(?i)(mimikatz|procdump|gsecdump|wce\.exe)")
+| eval mitre="T1003 - OS Credential Dumping"
+| table _time, SubjectUserName, NewProcessName, ComputerName, mitre
+
+
+# ── T1078 | Valid Accounts – Off-Hours Login ─────────────────────────────────
+# Successful logins outside business hours (before 7am or after 8pm)
+
+index=windows EventCode=4624
+| eval hour=strftime(_time, "%H")
+| where (hour < 7 OR hour > 20) AND TargetUserName!="SYSTEM"
+| stats count by TargetUserName, src_ip, ComputerName
+| where count > 2
+| eval mitre="T1078 - Valid Accounts (Off-Hours)"
+| sort -count
+
+
+# ── DASHBOARD: Top Alert Sources (Last 24h) ──────────────────────────────────
+
+index=windows earliest=-24h
+    (EventCode=4625 OR EventCode=4624 OR EventCode=4776 OR EventCode=4688)
+| eval alert_type=case(
+    EventCode==4625, "Failed Login",
+    EventCode==4624, "Successful Login",
+    EventCode==4776, "NTLM Auth",
+    EventCode==4688, "Process Creation",
+    true(), "Other"
+  )
+| stats count by alert_type, src_ip
+| sort -count
+| head 20

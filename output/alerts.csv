@@ -1,0 +1,19 @@
+timestamp,severity,technique,mitre_id,mitre_name,description,user
+2025-09-15T10:00:00,HIGH,brute_force,T1110,Brute Force,Brute-force detected: 16 failed logins for 'jsmith' within 60s,jsmith
+2025-09-15T08:00:22.437896,HIGH,lateral_movement,T1021,Remote Services,"Lateral movement: 'mthompson' accessed 3 hosts in 300s: {'WS-LEGAL05', 'DC-BACKUP02', 'SERVER-APP03'}",mthompson
+2025-09-15T10:03:10,HIGH,lateral_movement,T1021,Remote Services,"Lateral movement: 'jsmith' accessed 5 hosts in 300s: {'WS-UNKNOWN', 'DC-BACKUP02', 'WS-HR02', 'SERVER-APP03', 'WS-FINANCE01'}",jsmith
+2025-09-15T08:26:13.193631,HIGH,lateral_movement,T1021,Remote Services,"Lateral movement: 'lfoster' accessed 3 hosts in 300s: {'WS-DEV04', 'DC-PROD01', 'WS-EXEC06'}",lfoster
+2025-09-15T10:03:10,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:05:10,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:06:05,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:07:00,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:07:55,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:08:50,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:11:45,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'administrator' from 192.168.1.99,administrator
+2025-09-15T10:12:15,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:12:45,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'administrator' from 192.168.1.99,administrator
+2025-09-15T10:13:15,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:13:45,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'administrator' from 192.168.1.99,administrator
+2025-09-15T10:14:15,MEDIUM,pass_the_hash,T1550.002,Pass the Hash,Possible Pass-the-Hash: NTLM network logon by 'jsmith' from 192.168.1.99,jsmith
+2025-09-15T10:16:45,CRITICAL,credential_dumping,T1003,OS Credential Dumping,Suspicious process detected: 'C:\Users\jsmith\AppData\Local\Temp\mimikatz.exe' executed by 'jsmith',jsmith
+2025-09-15T10:16:57,CRITICAL,credential_dumping,T1003,OS Credential Dumping,Suspicious process detected: 'C:\Windows\System32\procdump.exe' executed by 'jsmith',jsmith
